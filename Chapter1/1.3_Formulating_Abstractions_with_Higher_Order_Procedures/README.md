@@ -117,6 +117,6 @@ In 1737, the Swiss mathematician Leonhard Euler published a memoir _De Fractioni
 
 A continued fraction representation of the tangent function was published in 1770 by the German mathematician J.H. Lambert:
 
-![\tan x = \frac{x}{1 - \frac{x^{2}}{3 - \frac{x^{2}}{5 - ...}}},](https://quicklatex.com/cache3/eb/ql_eaff4635062c2c5e2b915e8d56f1f5eb_l3.png)
+<img src="https://latex.codecogs.com/svg.image?tan&space;x&space;=&space;\frac{x}{1&space;-&space;\frac{x^{2}}{3&space;-&space;\frac{x^{2}}{5&space;-&space;...}}}" title="tan x = \frac{x}{1 - \frac{x^{2}}{3 - \frac{x^{2}}{5 - ...}}}" />
 
 where _x_ is in radians. Define a procedure `(tan-cf x k)` that computes an approximation to the tangent function based on Lambert’s formula. `k` specifies the number of terms to compute, as in Exercise 1.37.
