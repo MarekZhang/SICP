@@ -120,3 +120,45 @@ A continued fraction representation of the tangent function was published in 177
 <img src="https://latex.codecogs.com/svg.image?tan&space;x&space;=&space;\frac{x}{1&space;-&space;\frac{x^{2}}{3&space;-&space;\frac{x^{2}}{5&space;-&space;...}}}" title="tan x = \frac{x}{1 - \frac{x^{2}}{3 - \frac{x^{2}}{5 - ...}}}" />
 
 where _x_ is in radians. Define a procedure `(tan-cf x k)` that computes an approximation to the tangent function based on Lambert’s formula. `k` specifies the number of terms to compute, as in Exercise 1.37.
+
+### Exercise 1.40:
+
+Define a procedure `cubic` that can be used together with the `newtons-method` procedure in expressions of the form
+
+```scheme
+(newtons-method (cubic a b c) 1)
+```
+
+to approximate zeros of the cubic x<sup>3</sup> + ax<sup>2</sup> + bx + c.
+
+### Exercise 1.41
+
+Define a procedure `double` that takes a procedure of one argument as argument and returns a procedure that applies the original procedure twice. For example, if `inc` is a procedure that adds 1 to its argument, then `(double inc)` should be a procedure that adds 2. What value is returned by
+
+```scheme
+(((double (double double)) inc) 5)
+```
+
+### Exercise 1.42:
+
+Let _f_ and _g_ be two one-argument functions. The _composition_ _f_ after _g_ is defined to be the function _x → f(g(x))_. Define a procedure `compose` that implements composition. For example, if `inc` is a procedure that adds 1 to its argument,
+
+```scheme
+((compose square inc) 6)
+; 49
+```
+
+### Exercise 1.43:
+
+If _f_ is a numerical function and n is a positive integer, then we can form the n<sup>th</sup> repeated application of _f_ , which is defined to be the function whose value at x is f(f(...(f(x))...)). For example, if _f_ is the function x → x + 1, then the n<sup>th</sup> repeated application of _f_ is the function x → x + n. If _f_ is the operation of squaring a number, then the n<sup>th</sup> repeated application of _f_ is the function that raises its argument to the 2<sup>n</sup>-th power. Write a procedure that takes as inputs a procedure that computes _f_ and a positive integer _n_ and returns the procedure that computes the n<sup>th</sup> repeated application of _f_ . Your procedure should be able to be used as follows:
+
+```scheme
+((repeated square 2) 5)
+; 625
+```
+
+Hint: You may find it convenient to use `compose` from Exercise 1.42.
+
+### Exercise 1.44:
+
+The idea of _smoothing_ a function is an important concept in signal processing. If _f_ is a function and _dx_ is some small number, then the smoothed version of _f_ is the function whose value at a point _x_ is the average of f (x − dx), f (x), and f (x + dx). Write a procedure `smooth` that takes as input a procedure that computes _f_ and returns a procedure that computes the smoothed _f_. It is sometimes valuable to repeatedly smooth a function (that is, smooth the smoothed function, and so on) to obtain the _n-fold smoothed function_. Show how to generate the n-fold smoothed function of any given function using `smooth` and `repeated` from Exercise 1.43.
