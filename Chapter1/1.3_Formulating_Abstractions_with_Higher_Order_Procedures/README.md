@@ -50,3 +50,73 @@ You can obtain an even more general version of `accumulate` (Exercise 1.32) by i
 a. the sum of the squares of the prime numbers in the interval _a_ to _b_ (assuming that you have a `prime?` predicate already written)
 
 b. the product of all the positive integers less than _n_ that are relatively prime to _n_ (i.e., all positive integers _i_ < _n_ such that `GCD(i,n) = 1`).
+
+### Exercise 1.34
+
+Suppose we define the procedure
+
+```scheme
+(define (f g) (g 2))
+```
+
+Then we have
+
+```scheme
+(f square)
+; 4
+(f (lambda (z) (* z (+ z 1))))
+; 6
+```
+
+What happens if we (perversely) ask the interpreter to evaluate the combination `(f f)`? Explain.
+
+```scheme
+(f f)
+(f 2)
+(2 2)
+;error
+```
+
+### Exercise 1.35
+
+Show that the golden ratio _φ_ (Section 1.2.2) is a fixed point of the transformation _x_ → 1 + 1/_x_, and use this fact to compute _φ_ by means of the `fixed-point` procedure.
+
+### Exercise 1.36
+
+Modify `fixed-point` so that it prints the sequence of approximations it generates, using the `newline` and `display` primitives shown in Exercise 1.22. Then find a solution to x<sup>x</sup> = 1000 by finding a fixed point of x → log(1000)/ log(`x`). (Use Scheme’s primitive `log` procedure, which computes natural logarithms.) Compare the number of steps this takes with and without average damping. (Note that you cannot start `fixed-point` with a guess of 1, as this would cause division by log(1) = 0.)
+
+### Exercise 1.37
+
+a. An infinite _continued_ fraction is an expression of the form
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{200}&space;f&space;=&space;\frac{N_{1}}{D_{1}&space;&plus;&space;\frac{N_{2}}{D_{2}&space;&plus;&space;\frac{N_{3}}{D_{3}&space;&plus;&space;...}}}." target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{200}&space;f&space;=&space;\frac{N_{1}}{D_{1}&space;&plus;&space;\frac{N_{2}}{D_{2}&space;&plus;&space;\frac{N_{3}}{D_{3}&space;&plus;&space;...}}}." title="f = \frac{N_{1}}{D_{1} + \frac{N_{2}}{D_{2} + \frac{N_{3}}{D_{3} + ...}}}." /></a>
+
+As an example, one can show that the infinite continued fraction expansion with the N<sub>i</sub> and the D<sub>i</sub> all equal to 1 produces 1/φ, where φ is the golden ratio (described in Section 1.2.2). One way to approximate an infinite continued fraction is to truncate the expansion after a given number of terms. Such a truncation--a so-called _k-term finite continued fraction_—-has the form
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\dpi{200}&space;\frac{N_{1}}{D_{1}&space;&plus;&space;\frac{N_{2}}{...&space;&plus;&space;\frac{N_{k}}{D_{k}&space;&plus;&space;...}}}." target="_blank"><img src="https://latex.codecogs.com/gif.latex?\dpi{200}&space;\frac{N_{1}}{D_{1}&space;&plus;&space;\frac{N_{2}}{...&space;&plus;&space;\frac{N_{k}}{D_{k}&space;&plus;&space;...}}}." title="\frac{N_{1}}{D_{1} + \frac{N_{2}}{... + \frac{N_{k}}{D_{k} + ...}}}." /></a>
+
+Suppose that `n` and `d` are procedures of one argument (the term index _i_) that return the N<sub>i</sub> and D<sub>i</sub> of the terms of the continued fraction. Define a procedure `cont-frac` such that evaluating `(cont-frac n d k)` computes the value of the _k_-term finite continued fraction. Check your procedure by approximating 1/φ using
+
+```scheme
+(cont-frac (lambda (i) 1.0)
+           (lambda (i) 1.0)
+           k)
+```
+
+for successive values of `k`. How large must you make `k` in order to get an approximation that is accurate to 4 decimal places?
+
+11
+
+b. If your `cont-frac` procedure generates are cursive process, write one that generates an iterative process. If it generates an iterative process, write one that generates a recursive process.
+
+### Exercise 1.38:
+
+In 1737, the Swiss mathematician Leonhard Euler published a memoir _De Fractionibus Continuis_, which included a continued fraction expansion for e − 2, where e is the base of the natural logarithms. In this fraction, the N<sub>i</sub> are all 1, and the D<sub>i</sub> are successively 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, . . .. Write a program that uses your `cont-frac` procedure from Exercise 1.37 to approximate e, based on Euler’s expansion.
+
+### Exercise 1.39:
+
+A continued fraction representation of the tangent function was published in 1770 by the German mathematician J.H. Lambert:
+
+![\tan x = \frac{x}{1 - \frac{x^{2}}{3 - \frac{x^{2}}{5 - ...}}},](https://quicklatex.com/cache3/eb/ql_eaff4635062c2c5e2b915e8d56f1f5eb_l3.png)
+
+where _x_ is in radians. Define a procedure `(tan-cf x k)` that computes an approximation to the tangent function based on Lambert’s formula. `k` specifies the number of terms to compute, as in Exercise 1.37.
