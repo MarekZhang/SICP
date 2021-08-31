@@ -52,3 +52,20 @@ To do this will require changing the program `cc` somewhat. It will still have t
 Define the procedures `first-denomination`, `except-first-denomination`, and `no-more?` in terms of primitive operations on list structures. Does the order of the list `coin-values` affect the answer produced by `cc`? Why or why not?
 
 There's no influence, the procedure computes all the combinations.
+
+### Exercise 2.20:
+
+The procedures`+`, `*`, and `list` take arbitrary numbers of arguments. One way to define such procedures is to use `define` with _dotted-tail notation_. In a procedure definition, a parameter list that has a dot before the last parameter name indicates that, when the procedure is called, the initial parameters (if any) will have as values the initial arguments, as usual, but the final parameter’s value will be a _list_ of any remaining arguments. For instance, given the definition
+
+```scheme
+(define (f x y . z) ⟨body⟩)
+```
+
+Use this notation to write a procedure `same-parity` that takes one or more integers and returns a list of all the arguments that have the same even-odd parity as the first argument. For example,
+
+```scheme
+(same-parity 1 2 3 4 5 6 7)
+; (1 3 5 7)
+(same-parity 2 3 4 5 6 7)
+; (2 4 6)
+```
