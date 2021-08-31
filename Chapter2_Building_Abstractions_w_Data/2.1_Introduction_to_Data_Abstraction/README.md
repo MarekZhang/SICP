@@ -78,3 +78,48 @@ Ben Bitdiddle, an expert systems programmer, looks over Alyssa’s shoulder and 
 ### Exercise 2.11:
 
 In passing, Ben also cryptically comments: “By testing the signs of the endpoints of the intervals, it is possible to break `mul-interval` into nine cases, only one of which requires more than two multiplications.” Rewrite this procedure using Ben’s suggestion.
+After debugging her program, Alyssa shows it to a poten- tial user, who complains that her program solves the wrong problem. He wants a program that can deal with numbers represented as a center value and an additive tolerance; for example, he wants to work with intervals such as 3.5 ± 0.15 rather than [3.35, 3.65]. Alyssa returns to her desk and fixes this problem by supplying an alternate constructor and alternate selectors:
+
+```scheme
+(define (make-center-width c w) (make-interval (- c w) (+ c w)))
+(define (center i)
+	(/ (+ (lower-bound i) (upper-bound i)) 2))
+(define (width i)
+	(/ (- (upper-bound i) (lower-bound i)) 2))
+```
+
+Unfortunately, most of Alyssa’s users are engineers. Real engineering situations usually involve measurements with only a small uncertainty, measured as the ratio of the width of the interval to the midpoint of the interval. Engineers usually specify percentage tolerances on the parameters of devices, as in the resistor specifications given earlier.
+
+### Exercise 2.12:
+
+Define a constructor `make-center-percent` that takes a center and a percentage tolerance and produces the desired interval. You must also define a selector `percent` that produces the percentage tolerance for a given interval. The `center` selector is the same as the one shown above.
+
+### Exercise 2.13:
+
+Show that under the assumption of small percentage tolerances there is a simple formula for the approximate percentage tolerance of the product of two intervals in terms of the tolerances of the factors. You may simplify the problem by assuming that all numbers are positive.
+
+```
+interval A: center: a, percent p1, (a(1-p1), a(1+p1))
+interval B: center: b, percent p2, (b(1-p2), b(1+p2))
+
+product width:   (ab(1+p1)(1+p2) - ab(1-p1)(1-p2))/2
+product center:  (ab(1+p1)(1+p2) + ab(1-p1)(1-p2))/2
+product percent: (ab(1+p1)(1+p2) - ab(1-p1)(1-p2)) / (ab(1+p1)(1+p2) + ab(1-p1)(1-p2))
+                 = (p1 + p2) / (1 + p1p2) ≈ p1 + p2
+```
+
+### Exercise 2.14:
+
+Demonstrate that Lem is right. Investigate the behavior of the system on a variety of arithmetic expressions. Make some intervals A and B, and use them in computing the expressions A/A and A/B. You will get the most insight by using intervals whose width is a small percentage of the center value. Examine the results of the computation in center-percent form (see Exercise 2.12).
+
+### Exercise 2.15:
+
+Eva Lu Ator, another user, has also noticed the different intervals computed by different but algebraically equivalent expressions. She says that a formula to compute with intervals using Alyssa’s system will produce tighter error bounds if it can be written in such a form that no variable that represents an uncertain number is repeated. Thus, she says, `par2` is a “better” program for parallel resistances than `par1`. Is she right? Why?
+
+### Exercise 2.16:
+
+Explain, in general, why equivalent algebraic expressions may lead to different answers. Can you devise an interval-arithmetic package that does not have this shortcoming, or is this task impossible? (Warning: this problem is very difficult.)
+
+This is called [dependency problem](https://en.wikipedia.org/wiki/Interval_arithmetic#Dependency_problem) of interval arithmetic.
+
+> If an interval occurs several times in a calculation using parameters, and each occurrence is taken independently then this can lead to an unwanted expansion of the resulting intervals.
