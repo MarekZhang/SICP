@@ -205,7 +205,7 @@ Write a procedure fringe that takes as argument a tree (represented as a list) a
 
 ```
 
-## Exercise 2.29:
+### Exercise 2.29:
 
 A binary mobile consists of two branches, a left branch and a right branch. Each branch is a rod of a certain length, from which hangs either a weight or another binary mobile. We can represent a binary mobile using compound data by constructing it from two branches (for example, using `list`):
 
@@ -236,3 +236,54 @@ d. Suppose we change the representation of mobiles so that the constructors are
 ```
 
 How much do you need to change your programs to convert to the new representation?
+
+### Exercise 2.30:
+
+Define a procedure `square-tree` analogous to the `square-list` procedure of Exercise 2.21. That is, `square-tree` should behave as follows:
+
+```scheme
+(square-tree (list 1
+             (list 2 (list 3 4) 5)
+             (list 6 7)))
+; (1 (4 (9 16) 25) (36 49))
+```
+
+Define `square-tree` both directly (i.e., without using any higher-order procedures) and also by using `map` and recursion.
+
+### Exercise 2.31:
+
+Abstract your answer to Exercise 2.30 to produce a procedure `tree-map` with the property that `square-tree` could be defined as
+
+```scheme
+(define (square-tree tree) (tree-map square tree))
+```
+
+### Exercise 2.32:
+
+We can represent a set as a list of distinct elements, and we can represent the set of all subsets of the set as a list of lists. For example, if the set is `(1 2 3)`, then the set of all subsets is `(() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))`. Complete the following definition of a procedure that generates the set of subsets of a set and give a clear explanation of why it works:
+
+```scheme
+(define (subsets s)
+    (if (null? s)
+        (list nil)
+        (let ((rest (subsets (cdr s))))
+            (append rest (map ⟨??⟩ rest)))))
+```
+
+The set of all subsets of a given set is the union of:
+
+the set of all subsets excluding the first number.
+the set of all subsets excluding the first number, with the first number re-inserted into each subset
+
+### Exercise 2.33:
+
+Fill in the missing expressions to complete the following definitions of some basic list-manipulation operations as accumulations:
+
+```scheme
+(define (map p sequence)
+    (accumulate (lambda (x y) ⟨??⟩) nil sequence))
+(define (append seq1 seq2)
+    (accumulate cons ⟨??⟩ ⟨??⟩))
+(define (length sequence)
+    (accumulate ⟨??⟩ 0 sequence))
+```

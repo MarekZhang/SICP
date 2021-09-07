@@ -1,39 +1,14 @@
-(define (make-mobile left right) 
-   (list left right)) 
- (define (left-branch mobile) 
-   (car mobile)) 
- (define (right-branch mobile) 
-   (car (cdr mobile))) 
+(define nil '())
+
+(define (square-tree tree)
+	(cond ((null? tree) nil)
+		  ((not (pair? tree)) (* tree tree))	
+		  (else (cons (square-tree (car tree)) (square-tree (cdr tree))))))
+
+(define tree1 
+       (list 1
+        (list 2 (list 3 4) 5)
+		(list 6 7)))
+
+(square-tree tree1)
   
- (define (make-branch length structure) 
-   (list length structure)) 
- (define (branch-length branch) 
-   (car branch)) 
- (define (branch-structure branch) 
-   (car (cdr branch))) 
-  
- ;; Redefinition of constructors and selectors 
-  
-  
- (define (total-weight m) 
-   (cond ((null? m) 0) 
-         ((not (pair? m)) m) 
-         (else (+ (total-weight (branch-structure (left-branch  m))) 
-                  (total-weight (branch-structure (right-branch m))))))) 
-  
- (define m1 (make-mobile 
-             (make-branch 4 6) 
-             (make-branch 5 
-                          (make-mobile 
-                           (make-branch 3 7) 
-                           (make-branch 9 8))))) 
-  
- ;;          4  |  5 
- ;;        +----+-----+ 
- ;;        6        3 |     9 
- ;;               +---+---------+ 
- ;;               7             8 
-  
-(total-weight m1) 
- ;  Value: 21 
- 
