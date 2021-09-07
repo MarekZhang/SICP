@@ -287,3 +287,118 @@ Fill in the missing expressions to complete the following definitions of some ba
 (define (length sequence)
     (accumulate ⟨??⟩ 0 sequence))
 ```
+
+### Exercise 2.34:
+
+Evaluating a polynomial in _x_ at a given value of _x_ can be formulated as an accumulation. We evaluate the polynomial
+
+a<sub>n</sub>_x_<sup>n</sup> + a<sub>n-1</sub>_x_<sup>n-1</sup> + ... + a<sub>1</sub>_x_ + a<sub>0</sub>
+
+using a well-known algorithm called _Horner’s rule_, which structures the computation as
+
+(...(a<sub>n</sub>_x_ + a<sub>n-1</sub>)_x_ + ... + a<sub>1</sub>)_x_ + a<sub>0</sub>.
+
+In other words, we start with a<sub>n</sub>, multiply by _x_, add a<sub>n-1</sub>, multiply by _x_, and so on, until we reach a<sub>0</sub>.
+
+Fill in the following template to produce a procedure that evaluates a polynomial using Horner’s rule. Assume that the coefficients of the polynomial are arranged in a sequence, from a<sub>0</sub> through a<sub>n</sub>.
+
+```scheme
+(define (horner-eval x coefficient-sequence)
+    (accumulate (lambda (this-coeff higher-terms) ⟨??⟩)
+        0
+        coefficient-sequence))
+```
+
+For example, to compute 1 + 3*x* + 5*x*<sup>3</sup> + _x_<sup>5</sup> at _x_ = 2 you would evaluate
+
+```scheme
+(horner-eval 2 (list 1 3 0 5 0 1))
+```
+
+### Exercise 2.35:
+
+Redefine `count-leaves` from Section 2.2.2 as an accumulation:
+
+```scheme
+(define (count-leaves t)
+    (accumulate ⟨??⟩ ⟨??⟩ (map ⟨??⟩ ⟨??⟩)))
+```
+
+### Exercise 2.36:
+
+The procedure `accumulate-n` is similar to `accumulate` except that it takes as its third argument a sequence of sequences, which are all assumed to have the same number of elements. It applies the designated accumulation procedure to combine all the first elements of the sequences, all the second elements of the sequences, and so on, and returns a sequence of the results. For instance, if s is a sequence containing four sequences, `((1 2 3) (4 5 6) (7 8 9) (10 11 12))`, then the value of `(accumulate-n + 0 s)` should be the sequence `(22 26 30)`. Fill in the missing expressions in the following definition of `accumulate-n`:
+
+```scheme
+(define (accumulate-n op init seqs)
+    (if (null? (car seqs))
+        nil
+        (cons (accumulate op init ⟨??⟩)
+              (accumulate-n op init ⟨??⟩))))
+```
+
+## Exercise 2.37:
+
+Suppose we represent vectors **v** = (_v_<sub>_i_</sub>) as sequences of numbers, and matrices **m** = (_m_<sub>_ij_</sub>) as sequences of vectors (the rows of the matrix). For example, the matrix
+
+```
+1 2 3 4
+4 5 6 6
+6 7 8 9
+```
+
+is represented as the sequence `((1 2 3 4) (4 5 6 6) (6 7 8 9))`. With this representation, we can use sequence operations to concisely express the basic matrix and vector operations. These operations (which are described in any book on matrix algebra) are the following:
+
+(dot-product v w) returns the sum Σ<sub>_i_</sub>v<sub>_i_</sub>w<sub>_i_</sub>;
+
+(matrix-*-vector m v) returns the vector **t**,
+where t<sub>*i*</sub> =Σ<sub>*j*</sub>m<sub>*ij*</sub>v<sub>*j\*</sub>;
+
+(matrix-*-matrix m n) returns the matrix **p**,
+where p<sub>*ij*</sub> =Σ<sub>*k*</sub>m<sub>*ik*</sub>n<sub>*kj\*</sub>;
+
+(transpose m) returns the matrix **n**,
+where n<sub>_ij_</sub> =m<sub>_ij_</sub>.
+
+We can define the dot product as
+
+```scheme
+(define (dot-product v w)
+    (accumulate + 0 (map * v w)))
+```
+
+Fill in the missing expressions in the following procedures for computing the other matrix operations. (The procedure `accumulate-n` is defined in Exercise 2.36.)
+
+```scheme
+(define (matrix-*-vector m v)
+    (map ⟨??⟩ m))
+(define (transpose mat)
+    (accumulate-n ⟨??⟩ ⟨??⟩ mat))
+(define (matrix-*-matrix m n)
+    (let ((cols (transpose n)))
+        (map ⟨??⟩ m)))
+```
+
+## Exercise 2.38:
+
+The `accumulate` procedure is also known as `fold-right`, because it combines the first element of the sequence with the result of combining all the elements to the right. There is also a `fold-left`, which is similar to `fold-right`, except that it combines elements working in the opposite direction:
+
+```scheme
+(define (fold-left op initial sequence)
+    (define (iter result rest)
+        (if (null? rest)
+            result
+            (iter (op result (car rest))
+                (cdr rest))))
+    (iter initial sequence))
+```
+
+What are the values of
+
+```scheme
+(fold-right / 1 (list 1 2 3))
+(fold-left / 1 (list 1 2 3))
+(fold-right list nil (list 1 2 3))
+(fold-left list nil (list 1 2 3))
+```
+
+Give a property that `op` should satisfy to guarantee that `fold-right` and `fold-left` will produce the same values for any sequence.
