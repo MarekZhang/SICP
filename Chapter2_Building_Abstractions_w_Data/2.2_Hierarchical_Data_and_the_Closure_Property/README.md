@@ -336,7 +336,7 @@ The procedure `accumulate-n` is similar to `accumulate` except that it takes as 
               (accumulate-n op init ⟨??⟩))))
 ```
 
-## Exercise 2.37:
+### Exercise 2.37:
 
 Suppose we represent vectors **v** = (_v_<sub>_i_</sub>) as sequences of numbers, and matrices **m** = (_m_<sub>_ij_</sub>) as sequences of vectors (the rows of the matrix). For example, the matrix
 
@@ -378,7 +378,7 @@ Fill in the missing expressions in the following procedures for computing the ot
         (map ⟨??⟩ m)))
 ```
 
-## Exercise 2.38:
+### Exercise 2.38:
 
 The `accumulate` procedure is also known as `fold-right`, because it combines the first element of the sequence with the result of combining all the elements to the right. There is also a `fold-left`, which is similar to `fold-right`, except that it combines elements working in the opposite direction:
 
@@ -413,3 +413,47 @@ Complete the following definitions of `reverse` (Exercise 2.18) in terms of `fol
 (define (reverse sequence)
     (fold-left (lambda (x y) ⟨??⟩) nil sequence))
 ```
+
+### Exercise 2.40:
+
+Define a procedure `unique-pairs` that, given an integer _n_, generates the sequence of pairs (_i_, _j_) with 1 ≤ _j_ < _i_ ≤ _n_. Use `unique-pairs` to simplify the definition of `prime-sum-pairs` given above.
+
+### Exercise 2.41:
+
+Write a procedure to find all ordered triples of distinct positive integers _i_, _j_, and _k_ less than or equal to a given integer _n_ that sum to a given integer _s_.
+
+### Exercise 2.42:
+
+See page 169 of the book
+
+### Exercise 2.43:
+
+Louis Reasoner is having a terrible time doing Exercise 2.42. His `queens` procedure seems to work, but it runs extremely slowly. (Louis never does manage to wait long enough for it to solve even the 6 × 6 case.) When Louis asks Eva Lu Ator for help, she points out that he has interchanged the order of the nested mappings in the `flatmap`, writing it as
+
+```scheme
+(flatmap
+    (lambda (new-row)
+        (map (lambda (rest-of-queens)
+                 (adjoin-position new-row k rest-of-queens))
+             (queen-cols (- k 1))))
+    (enumerate-interval 1 board-size))
+```
+
+Explain why this interchange makes the program run slowly. Estimate how long it will take Louis’s program to solve the eight-queens puzzle, assuming that the program in Exercise 2.42 solves the puzzle in time _T_.
+
+In this code, `(queen-cols (- k 1))` run `new-row * rest-of-queens` (same as `board-size * (board-size - 1)`) times. In Exercise 2.42, it only run once. Therefore the program needs `board-size * (board-size - 1) * T`.
+
+### Exercise 2.44:
+
+Define the procedure `up-split` used by `corner-split`. It is similar to `right-split`, except that it switches the roles of below and beside.
+
+### Exercise 2.45:
+
+`right-split` and `up-split` can be expressed as instances of a general splitting operation. Define a procedure split with the property that evaluating
+
+```scheme
+(define right-split (split beside below))
+(define up-split (split below beside))
+```
+
+produces procedures `right-split` and `up-split` with the same behaviors as the ones already defined.
