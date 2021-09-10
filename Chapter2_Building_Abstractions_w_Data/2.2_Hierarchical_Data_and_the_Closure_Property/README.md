@@ -424,7 +424,7 @@ Write a procedure to find all ordered triples of distinct positive integers _i_,
 
 ### Exercise 2.42:
 
-See page 169 of the book
+eight queens puzzle problem
 
 ### Exercise 2.43:
 
