@@ -441,7 +441,7 @@ Louis Reasoner is having a terrible time doing Exercise 2.42. His `queens` proce
 
 Explain why this interchange makes the program run slowly. Estimate how long it will take Louis’s program to solve the eight-queens puzzle, assuming that the program in Exercise 2.42 solves the puzzle in time _T_.
 
-In this code, `(queen-cols (- k 1))` run `new-row * rest-of-queens` (same as `board-size * (board-size - 1)`) times. In Exercise 2.42, it only run once. Therefore the program needs `board-size * (board-size - 1) * T`.
+Ans: For each cols(except the first one), the calculation would be k (number of rows) times of the prev one. And there are k cols, so the calculation time would be `k * (k - 1) * T`
 
 ### Exercise 2.44:
 
